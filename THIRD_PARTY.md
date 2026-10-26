@@ -1,13 +1,12 @@
-# Third-party sources
+# 第三方来源
 
-This project builds on David Churchill's STARTcraft and UAlbertaBot. Their complete repositories are fetched separately; the exact commits and local changes are recorded in `patches/sources.lock.json` and the `.patch` files.
-
-| Dependency | Source | License |
+| 项目 | 用途 | 来源与许可 |
 |---|---|---|
-| STARTcraft / StarterBot | https://github.com/davechurchill/STARTcraft | MIT; text in `licenses/STARTcraft-MIT.txt` |
-| UAlbertaBot (including BOSS and SparCraft in that repository) | https://github.com/davechurchill/ualbertabot | See upstream license and component notices; top-level MIT text in `licenses/UAlbertaBot-MIT.txt` |
-| BWAPI 4.4.0 | https://github.com/bwapi/bwapi/tree/v4.4.0 | GNU LGPL v3; original license: https://github.com/bwapi/bwapi/blob/v4.4.0/LICENSE |
+| STARTcraft / StarterBot | 基础机器人 | [上游项目](https://github.com/davechurchill/STARTcraft)，[MIT 许可](licenses/STARTcraft-MIT.txt) |
+| UAlbertaBot | 对战机器人 | [上游项目](https://github.com/davechurchill/ualbertabot)，[项目许可](licenses/UAlbertaBot-MIT.txt)及其组件声明 |
+| BWAPI 4.4.0 | 游戏接口 | [发行版本](https://github.com/bwapi/bwapi/releases/tag/v4.4.0)，[LGPL v3 许可](licenses/BWAPI-LGPL-3.0.txt) |
+| StarCraft AI Tournament Manager | 提供游戏注入启动工具 | [上游项目](https://github.com/davechurchill/StarcraftAITournamentManager)，`injectory.x86.exe` 位于 `server/required/Required_BWAPI_440.zip` |
 
-`patches/STARTcraft.patch` changes the bundled BWAPI client's connection selection and StarterBot's observation callbacks. `patches/UAlbertaBot.patch` changes observation callbacks, local configuration, and Windows build settings. These patches retain their respective upstream licensing and attribution. The referenced upstream repositories retain additional component notices.
+机器人源码版本记录在 `patches/sources.lock.json`，本项目的连接、观测和构建修改保存在补丁中。完整源码由准备脚本获取，遵循各上游项目及组件的许可。
 
-StarCraft game assets, game executables, BWAPI release binaries, injector binaries and Microsoft build tools are not distributed by this repository. The local tournament launcher was obtained from https://github.com/davechurchill/StarcraftAITournamentManager (server/required/Required_BWAPI_440.zip).
+StarCraft 1.16.1 游戏和比赛地图需自行准备；仓库不分发游戏、注入器、BWAPI 发行二进制或微软编译器。

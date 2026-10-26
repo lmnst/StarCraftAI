@@ -1,6 +1,12 @@
-param([string]$RunDirectory = (Get-Content -LiteralPath (Join-Path $PSScriptRoot '..\matches\latest.txt') -Raw))
+param([string]$RunDirectory)
 $ErrorActionPreference = 'Stop'
+$matchesRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\matches'))
+if ([string]::IsNullOrWhiteSpace($RunDirectory)) {
+    $RunDirectory = Get-Content -LiteralPath (Join-Path $matchesRoot 'latest.txt') -Raw
+}
 $RunDirectory = $RunDirectory.Trim()
+if (![IO.Path]::IsPathRooted($RunDirectory)) { $RunDirectory = Join-Path $matchesRoot $RunDirectory }
+$RunDirectory = [IO.Path]::GetFullPath($RunDirectory)
 function Read-MatchJson([string]$FileName) { Get-Content -LiteralPath (Join-Path $RunDirectory $FileName) -Raw | ConvertFrom-Json }
 $a = Read-MatchJson 'StarterBot-start.json'
 $b = Read-MatchJson 'UAlbertaBot-start.json'

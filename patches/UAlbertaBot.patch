@@ -43,6 +43,13 @@ index f7e23b2..ec3e998 100644
        <EnableCOMDATFolding>true</EnableCOMDATFolding>
        <OptimizeReferences>true</OptimizeReferences>
        <AdditionalDependencies>../../bwapidata/lib/bwapidata_$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+@@ -179,4 +179,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/SparCraft/VisualStudio/SparCraft.vcxproj b/SparCraft/VisualStudio/SparCraft.vcxproj
 index e21a775..a8d8596 100644
 --- a/SparCraft/VisualStudio/SparCraft.vcxproj
@@ -95,6 +102,13 @@ index e21a775..a8d8596 100644
        <SubSystem>Console</SubSystem>
        <OptimizeReferences>true</OptimizeReferences>
        <EnableCOMDATFolding>true</EnableCOMDATFolding>
+@@ -214,4 +214,4 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+-</Project>
+\ No newline at end of file
++</Project>
 diff --git a/UAlbertaBot/Source/UAlbertaBotModule.cpp b/UAlbertaBot/Source/UAlbertaBotModule.cpp
 index 3d259b3..348bba1 100644
 --- a/UAlbertaBot/Source/UAlbertaBotModule.cpp
@@ -142,10 +156,12 @@ index 3d259b3..348bba1 100644
  	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitMorph(unit); }
  }
  
-@@ -136,11 +142,13 @@ void UAlbertaBotModule::onSendText(std::string text)
+@@ -135,12 +141,14 @@ void UAlbertaBotModule::onSendText(std::string text)
+ }
  
  void UAlbertaBotModule::onUnitCreate(BWAPI::Unit unit)
- {
+-{ 
++{
 +    LocalTrace::event("create", unit); 
  	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitCreate(unit); }
  }
@@ -156,6 +172,13 @@ index 3d259b3..348bba1 100644
  	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitComplete(unit); }
  }
  
+@@ -157,4 +165,4 @@ void UAlbertaBotModule::onUnitHide(BWAPI::Unit unit)
+ void UAlbertaBotModule::onUnitRenegade(BWAPI::Unit unit)
+ { 
+ 	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitRenegade(unit); }
+-}
+\ No newline at end of file
++}
 diff --git a/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj b/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj
 index 9ab4b28..5e03c25 100644
 --- a/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj
@@ -216,10 +239,13 @@ index 9ab4b28..5e03c25 100644
        <SubSystem>Console</SubSystem>
        <OptimizeReferences>true</OptimizeReferences>
        <EnableCOMDATFolding>true</EnableCOMDATFolding>
-@@ -211,3 +211,4 @@
+@@ -210,4 +210,5 @@
+   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
    <ImportGroup Label="ExtensionTargets">
    </ImportGroup>
- </Project>
+-</Project>
+\ No newline at end of file
++</Project>
 +
 diff --git a/UAlbertaBot/bin/UAlbertaBot_Config.txt b/UAlbertaBot/bin/UAlbertaBot_Config.txt
 index e4e9335..56b768b 100644
@@ -237,9 +263,12 @@ index e4e9335..56b768b 100644
          "CompleteMapInformation"    : false
      },
      
-@@ -116,3 +116,5 @@
+@@ -115,4 +115,6 @@
+             "Zerg_3HatchScourge"    : { "Race" : "Zerg",    "OpeningBuildOrder" : ["Drone", "Drone", "Drone", "Drone", "Overlord", "Drone", "Drone", "Drone", "Drone", "Hatchery", "Drone", "Drone", "Spawning_Pool", "Drone", "Drone", "Extractor", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone","Lair", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Spire", "Overlord", "Drone", "Overlord", "Hatchery", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Drone", "Hatchery", "Drone", "Extractor", "Drone", "Hatchery", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Scourge", "Hatchery", "Extractor", "Extractor", "Hatchery"]}
          }
      }
- }
+-}
+\ No newline at end of file
++}
 +
 +

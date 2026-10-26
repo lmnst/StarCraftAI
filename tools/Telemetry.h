@@ -3,6 +3,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include "RuntimePaths.h"
 
 // Observation only: no build, movement, combat or surrender commands.
 namespace LocalTrace {
@@ -22,12 +23,16 @@ inline std::string quote(const std::string& value) {
     }
     return result + "\"";
 }
+inline std::string DefaultDirectory() {
+    return StarBench::Narrow(StarBench::ProjectRoot() + L"logs");
+}
 inline void begin(const char* bot) {
     auto& t = state();
     if (t.csv.is_open()) t.csv.close();
     if (t.events.is_open()) t.events.close();
     const char* run = std::getenv("STARBENCH_RUN_DIR");
-    t.directory = run ? run : "E:\\StarCraftAI\\logs";
+    t.directory = run ? run : DefaultDirectory();
+    CreateDirectoryW(StarBench::Widen(t.directory).c_str(), nullptr);
     t.bot = bot; t.lastFrame = -1;
     t.csv.open(t.directory + "\\" + t.bot + "-telemetry.csv", std::ios::trunc);
     t.events.open(t.directory + "\\" + t.bot + "-events.csv", std::ios::trunc);

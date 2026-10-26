@@ -1,5 +1,3 @@
-#define UNICODE
-#define _UNICODE
 #include <windows.h>
 #include <tlhelp32.h>
 #include <string>
@@ -8,17 +6,8 @@
 #include <vector>
 #include "../src/STARTcraft/src/bwapi/include/BWAPI/Client/GameTable.h"
 
-// Locate the project relative to this launcher's tools directory.
-static std::wstring FindProjectRoot() {
-    wchar_t path[32768]{};
-    const DWORD length = GetModuleFileNameW(nullptr, path, 32768);
-    std::wstring result(path, length);
-    const auto fileSeparator = result.find_last_of(L"\\/");
-    result.resize(fileSeparator);
-    const auto toolsSeparator = result.find_last_of(L"\\/");
-    return result.substr(0, toolsSeparator + 1);
-}
-static const std::wstring root = FindProjectRoot();
+#include "RuntimePaths.h"
+static const std::wstring root = StarBench::ProjectRoot();
 static HANDLE matchJob = nullptr;
 static HWND statusBox = nullptr;
 static std::wstring runDir, message;
@@ -27,9 +16,9 @@ static ULONGLONG startedAt = 0;
 struct Side { std::wstring bot, botDir, ini; DWORD injectorPID = 0, gamePID = 0; bool botStarted = false; };
 static Side sides[2];
 
-static std::string narrow(const std::wstring& s) { return std::string(s.begin(), s.end()); }
+static std::string narrow(const std::wstring& s) { return StarBench::Narrow(s); }
 static std::string readFile(const std::wstring& path) { std::ifstream f(path); return std::string(std::istreambuf_iterator<char>(f), {}); }
-static std::wstring widen(const std::string& s) { return std::wstring(s.begin(), s.end()); }
+static std::wstring widen(const std::string& s) { return StarBench::Widen(s); }
 static std::string lastLine(const std::wstring& path) {
     std::ifstream f(path); std::string line, last;
     while (std::getline(f, line)) if (!line.empty()) last = line;
@@ -38,15 +27,7 @@ static std::string lastLine(const std::wstring& path) {
 static void StopMatch() {
     if (matchJob) { TerminateJobObject(matchJob, 0); CloseHandle(matchJob); matchJob = nullptr; }
 }
-struct EnvironmentOverride {
-    std::wstring name, original; bool present;
-    EnvironmentOverride(const wchar_t* key, const std::wstring& value): name(key) {
-        DWORD size = GetEnvironmentVariableW(key, nullptr, 0); present = size != 0;
-        if (present) { std::vector<wchar_t> buffer(size); GetEnvironmentVariableW(key, buffer.data(), size); original = buffer.data(); }
-        SetEnvironmentVariableW(key, value.c_str());
-    }
-    ~EnvironmentOverride() { SetEnvironmentVariableW(name.c_str(), present ? original.c_str() : nullptr); }
-};
+using StarBench::EnvironmentOverride;
 static bool Spawn(const std::wstring& exe, std::wstring command, const std::wstring& cwd,
                   const std::wstring& logPath, DWORD& pid) {
     SECURITY_ATTRIBUTES sa{sizeof(sa), nullptr, TRUE};
@@ -110,7 +91,7 @@ static void StartMatch(int frameMs) {
     CreateDirectoryW((root + L"matches").c_str(), nullptr);
     runDir = root + L"matches\\" + stamp;
     if (!CreateDirectoryW(runDir.c_str(), nullptr)) { message = L"Could not create match directory."; failed = true; return; }
-    std::ofstream(root + L"matches\\latest.txt") << narrow(runDir);
+    std::ofstream(root + L"matches\\latest.txt") << narrow(stamp);
     sides[0] = {L"StarterBot", root + L"src\\STARTcraft\\bin", runDir + L"\\StarterBot.ini"};
     sides[1] = {L"UAlbertaBot", root + L"src\\UAlbertaBot\\UAlbertaBot\\bin", runDir + L"\\UAlbertaBot.ini"};
     matchJob = CreateJobObjectW(nullptr, nullptr);
@@ -131,7 +112,14 @@ static void StartMatch(int frameMs) {
     startedAt = GetTickCount64(); message = L"Starting two Local PC game instances...";
 }
 static void StartReplay() {
-    if (runDir.empty()) runDir = widen(readFile(root + L"matches\\latest.txt"));
+    if (runDir.empty()) {
+        std::wstring saved = widen(readFile(root + L"matches\\latest.txt"));
+        while (!saved.empty() && (saved.back() == L'\n' || saved.back() == L'\r')) saved.pop_back();
+        const auto separator = saved.find_last_of(L"\\/");
+        if (separator != std::wstring::npos) saved = saved.substr(separator + 1);
+        if (saved.empty()) { message = L"Finish a match before opening a replay."; return; }
+        runDir = root + L"matches\\" + saved;
+    }
     WIN32_FIND_DATAW found{};
     HANDLE search = FindFirstFileW((runDir + L"\\StarterBot*.rep").c_str(), &found);
     if (search == INVALID_HANDLE_VALUE) { message = L"No completed replay found. Finish a match first."; return; }

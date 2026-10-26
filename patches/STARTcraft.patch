@@ -81,10 +81,12 @@ index 627cf6c..47df9b6 100644
  	
  }
  
-@@ -140,12 +146,14 @@ void StarterBot::onSendText(std::string text)
+@@ -139,13 +145,15 @@ void StarterBot::onSendText(std::string text)
+ // Units are created in buildings like barracks before they are visible, 
  // so this will trigger when you issue the build command for most units
  void StarterBot::onUnitCreate(BWAPI::Unit unit)
- {
+-{ 
++{
 +    LocalTrace::event("create", unit); 
  	
  }
@@ -96,8 +98,11 @@ index 627cf6c..47df9b6 100644
  	
  }
  
-@@ -169,3 +177,4 @@ void StarterBot::onUnitRenegade(BWAPI::Unit unit)
+@@ -168,4 +176,5 @@ void StarterBot::onUnitHide(BWAPI::Unit unit)
+ void StarterBot::onUnitRenegade(BWAPI::Unit unit)
  { 
  	
- }
+-}
+\ No newline at end of file
++}
 +

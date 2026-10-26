@@ -4,7 +4,6 @@
 !/.gitattributes
 !/README.md
 !/THIRD_PARTY.md
-!/docs/
 !/tools/
 !/patches/
 !/licenses/
@@ -14,15 +13,14 @@
 !/tools/MatchLauncher.cpp
 !/tools/MatchLauncher.vcxproj
 !/tools/Telemetry.h
+!/tools/RuntimePaths.h
 !/tools/BuildBots.cmd
 !/tools/Validate-Match.ps1
 !/tools/Setup-Sources.ps1
-!/tools/Publish-GitHub.ps1
-/docs/*
-!/docs/README-本地演示.md
-!/docs/README-双机器人对战.md
-!/docs/自动验证记录.md
-!/docs/双机器人验证记录.md
+README-本地演示.md
+README-双机器人对战.md
+自动验证记录.md
+双机器人验证记录.md
 # Runtime files, dependencies, credentials and generated files stay local.
 **/.env
 **/.env.*

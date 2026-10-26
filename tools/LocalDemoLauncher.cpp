@@ -1,5 +1,3 @@
-#define UNICODE
-#define _UNICODE
 #include <windows.h>
 #include <string>
 #include <fstream>
@@ -8,17 +6,8 @@
 static HANDLE demoJob = nullptr;
 static HWND statusBox = nullptr;
 static std::wstring selectedBot;
-// Locate the project relative to this launcher's tools directory.
-static std::wstring FindProjectRoot() {
-    wchar_t path[32768]{};
-    const DWORD length = GetModuleFileNameW(nullptr, path, 32768);
-    std::wstring result(path, length);
-    const auto fileSeparator = result.find_last_of(L"\\/");
-    result.resize(fileSeparator);
-    const auto toolsSeparator = result.find_last_of(L"\\/");
-    return result.substr(0, toolsSeparator + 1);
-}
-static const std::wstring root = FindProjectRoot();
+#include "RuntimePaths.h"
+static const std::wstring root = StarBench::ProjectRoot();
 
 static void StopDemo() {
     if (demoJob) { TerminateJobObject(demoJob, 0); CloseHandle(demoJob); demoJob = nullptr; }
@@ -55,6 +44,18 @@ static bool StartOwnedProcess(const std::wstring& exe, std::wstring command,
 
 static void StartDemo(bool useUab) {
     StopDemo();
+    CreateDirectoryW((root + L"logs").c_str(), nullptr);
+    const std::wstring iniPath = root + L"logs\\single-player.ini";
+    {
+        std::ofstream ini(iniPath.c_str());
+        ini << "[ai]\nai=NULL\nai_dbg=NULL\n[auto_menu]\nauto_menu=SINGLE_PLAYER\ncharacter_name=StarBench\nauto_restart=OFF\n"
+            << "map=maps/BroodWar/AIIDE/(2)Heartbreak Ridge.scx\nrace=Protoss\nenemy_count=1\nenemy_race=Protoss\ngame_type=MELEE\n"
+            << "[config]\nshared_memory=ON\nconsole_attach_auto=FALSE\nconsole_alloc_auto=FALSE\n"
+            << "[window]\nwindowed=ON\nleft=20\ntop=40\nwidth=640\nheight=480\n[starcraft]\nsound=OFF\nspeed_override=42\n";
+        if (!ini) { SetWindowTextW(statusBox, L"Could not write logs/single-player.ini."); return; }
+    }
+    StarBench::EnvironmentOverride runDirectory(L"STARBENCH_RUN_DIR", root + L"logs");
+    StarBench::EnvironmentOverride gameConfig(L"BWAPI_CONFIG_INI", iniPath);
     selectedBot = useUab ? L"UAlbertaBot" : L"StarterBot";
     demoJob = CreateJobObjectW(nullptr, nullptr);
     JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
