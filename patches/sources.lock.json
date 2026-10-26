@@ -1,0 +1,6 @@
+{
+  "dependencies": [
+    {"name":"STARTcraft","url":"https://github.com/davechurchill/STARTcraft.git","commit":"c74bda0c54382dab5474000b4b05df6cec6d73b5","patch":"STARTcraft.patch"},
+    {"name":"UAlbertaBot","url":"https://github.com/davechurchill/ualbertabot.git","commit":"558899d8793456f4a6ec4196efbb5235552e24db","patch":"UAlbertaBot.patch"}
+  ]
+}

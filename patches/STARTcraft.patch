@@ -1,0 +1,103 @@
+diff --git a/src/bwapi/BWAPIClient/Client.cpp b/src/bwapi/BWAPIClient/Client.cpp
+index 8dd6a3f..a60c677 100644
+--- a/src/bwapi/BWAPIClient/Client.cpp
++++ b/src/bwapi/BWAPIClient/Client.cpp
+@@ -3,6 +3,7 @@
+ #include <sstream>
+ #include <iostream>
+ #include <cassert>
++#include <cstdlib>
+ #include <thread>
+ #include <chrono>
+ 
+@@ -48,11 +49,14 @@ namespace BWAPI
+     }
+ 
+     //Find row with most recent keep alive that isn't connected
++    // Bind a local-demo client to the specific game spawned for it.
++    const char* requested = std::getenv("STARBENCH_SERVER_PID");
++    const unsigned long requestedPID = requested ? std::strtoul(requested, nullptr, 10) : 0;
+     DWORD latest = 0;
+     for(int i = 0; i < GameTable::MAX_GAME_INSTANCES; i++)
+     {
+       std::cout << i << " | " << gameTable->gameInstances[i].serverProcessID << " | " << gameTable->gameInstances[i].isConnected << " | " << gameTable->gameInstances[i].lastKeepAliveTime << std::endl;
+-      if (gameTable->gameInstances[i].serverProcessID != 0 && !gameTable->gameInstances[i].isConnected)
++      if (gameTable->gameInstances[i].serverProcessID != 0 && !gameTable->gameInstances[i].isConnected && (!requestedPID || gameTable->gameInstances[i].serverProcessID == requestedPID))
+       {
+         if ( gameTableIndex == -1 || latest == 0 || gameTable->gameInstances[i].lastKeepAliveTime < latest )
+         {
+diff --git a/src/starterbot/StarterBot.cpp b/src/starterbot/StarterBot.cpp
+index 627cf6c..47df9b6 100644
+--- a/src/starterbot/StarterBot.cpp
++++ b/src/starterbot/StarterBot.cpp
+@@ -1,3 +1,4 @@
++#include "../../../../tools/Telemetry.h"
+ #include "StarterBot.h"
+ #include "Tools.h"
+ #include "MapTools.h"
+@@ -10,12 +11,13 @@ StarterBot::StarterBot()
+ // Called when the bot starts!
+ void StarterBot::onStart()
+ {
++    LocalTrace::begin("StarterBot");
+     // Set our BWAPI options here    
+ 	BWAPI::Broodwar->setLocalSpeed(10);
+     BWAPI::Broodwar->setFrameSkip(0);
+     
+     // Enable the flag that tells BWAPI top let users enter input while bot plays
+-    BWAPI::Broodwar->enableFlag(BWAPI::Flag::UserInput);
++    // Manual unit input disabled for automatic validation.
+ 
+     // Call MapTools OnStart
+     m_mapTools.onStart();
+@@ -24,6 +26,7 @@ void StarterBot::onStart()
+ // Called on each frame of the game
+ void StarterBot::onFrame()
+ {
++    RecordLocalTelemetry("StarterBot");
+     // Update our MapTools information
+     m_mapTools.onFrame();
+ 
+@@ -110,12 +113,14 @@ void StarterBot::drawDebugInformation()
+ // Called whenever the game ends and tells you if you won or not
+ void StarterBot::onEnd(bool isWinner)
+ {
++    LocalTrace::end("StarterBot", isWinner);
+     std::cout << "We " << (isWinner ? "won!" : "lost!") << "\n";
+ }
+ 
+ // Called whenever a unit is destroyed, with a pointer to the unit
+ void StarterBot::onUnitDestroy(BWAPI::Unit unit)
+ {
++    LocalTrace::event("destroy", unit);
+ 	
+ }
+ 
+@@ -123,6 +128,7 @@ void StarterBot::onUnitDestroy(BWAPI::Unit unit)
+ // Zerg units morph when they turn into other units
+ void StarterBot::onUnitMorph(BWAPI::Unit unit)
+ {
++    LocalTrace::event("morph", unit);
+ 	
+ }
+ 
+@@ -140,12 +146,14 @@ void StarterBot::onSendText(std::string text)
+ // so this will trigger when you issue the build command for most units
+ void StarterBot::onUnitCreate(BWAPI::Unit unit)
+ {
++    LocalTrace::event("create", unit); 
+ 	
+ }
+ 
+ // Called whenever a unit finished construction, with a pointer to the unit
+ void StarterBot::onUnitComplete(BWAPI::Unit unit)
+ {
++    LocalTrace::event("complete", unit);
+ 	
+ }
+ 
+@@ -169,3 +177,4 @@ void StarterBot::onUnitRenegade(BWAPI::Unit unit)
+ { 
+ 	
+ }
++

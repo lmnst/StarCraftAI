@@ -1,0 +1,37 @@
+# Publish only reviewed source, patches and documentation.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/THIRD_PARTY.md
+!/docs/
+!/tools/
+!/patches/
+!/licenses/
+/tools/*
+!/tools/LocalDemoLauncher.cpp
+!/tools/LocalDemoLauncher.vcxproj
+!/tools/MatchLauncher.cpp
+!/tools/MatchLauncher.vcxproj
+!/tools/Telemetry.h
+!/tools/BuildBots.cmd
+!/tools/Validate-Match.ps1
+!/tools/Setup-Sources.ps1
+!/tools/Publish-GitHub.ps1
+/docs/*
+!/docs/README-本地演示.md
+!/docs/README-双机器人对战.md
+!/docs/自动验证记录.md
+!/docs/双机器人验证记录.md
+# Runtime files, dependencies, credentials and generated files stay local.
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+**/*.pfx
+**/*.exe
+**/*.dll
+**/*.lib
+**/*.obj
+**/*.pdb
+**/*.rep

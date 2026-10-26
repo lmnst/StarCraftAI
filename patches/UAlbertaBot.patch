@@ -1,0 +1,245 @@
+diff --git a/BOSS/VisualStudio/BOSS.vcxproj b/BOSS/VisualStudio/BOSS.vcxproj
+index f7e23b2..ec3e998 100644
+--- a/BOSS/VisualStudio/BOSS.vcxproj
++++ b/BOSS/VisualStudio/BOSS.vcxproj
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <ItemGroup Label="ProjectConfigurations">
+     <ProjectConfiguration Include="Debug|Win32">
+@@ -105,7 +105,7 @@
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+     <ConfigurationType>StaticLibrary</ConfigurationType>
+     <UseDebugLibraries>false</UseDebugLibraries>
+-    <WholeProgramOptimization>true</WholeProgramOptimization>
++    <WholeProgramOptimization>false</WholeProgramOptimization>
+     <CharacterSet>Unicode</CharacterSet>
+     <PlatformToolset>v142</PlatformToolset>
+   </PropertyGroup>
+@@ -144,7 +144,7 @@
+     </ClCompile>
+     <Link>
+       <SubSystem>Console</SubSystem>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <AdditionalDependencies>../../bwapidata/lib/bwapidatad_$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+     </Link>
+   </ItemDefinitionGroup>
+@@ -159,14 +159,14 @@
+       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+       <AdditionalIncludeDirectories>$(BWAPI_DIR)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+       <BrowseInformation>true</BrowseInformation>
+     </ClCompile>
+     <Link>
+       <SubSystem>Console</SubSystem>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+       <OptimizeReferences>true</OptimizeReferences>
+       <AdditionalDependencies>../../bwapidata/lib/bwapidata_$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+diff --git a/SparCraft/VisualStudio/SparCraft.vcxproj b/SparCraft/VisualStudio/SparCraft.vcxproj
+index e21a775..a8d8596 100644
+--- a/SparCraft/VisualStudio/SparCraft.vcxproj
++++ b/SparCraft/VisualStudio/SparCraft.vcxproj
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <ItemGroup Label="ProjectConfigurations">
+     <ProjectConfiguration Include="Debug|Win32">
+@@ -28,7 +28,7 @@
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+     <ConfigurationType>StaticLibrary</ConfigurationType>
+     <CharacterSet>Unicode</CharacterSet>
+-    <WholeProgramOptimization>true</WholeProgramOptimization>
++    <WholeProgramOptimization>false</WholeProgramOptimization>
+     <PlatformToolset>v142</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+@@ -81,12 +81,12 @@
+       <PrecompiledHeader>
+       </PrecompiledHeader>
+       <WarningLevel>Level3</WarningLevel>
+-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+     </ClCompile>
+     <Link>
+       <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPId.lib;$(EXTERNAL_LIB_DIR)/SDL.lib;$(EXTERNAL_LIB_DIR)/SDLmain.lib;$(EXTERNAL_LIB_DIR)/opengl32.lib;$(EXTERNAL_LIB_DIR)/SDL_image.lib;$(EXTERNAL_LIB_DIR)/SDL_gfx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+       <TargetMachine>MachineX86</TargetMachine>
+       <AdditionalOptions>/NODEFAULTLIB:msvcrt.lib %(AdditionalOptions)</AdditionalOptions>
+@@ -103,7 +103,7 @@
+       <PrecompiledHeader>
+       </PrecompiledHeader>
+       <WarningLevel>Level3</WarningLevel>
+-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+       <OmitFramePointers>true</OmitFramePointers>
+       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+@@ -112,7 +112,7 @@
+     </ClCompile>
+     <Link>
+       <AdditionalDependencies>$(BWAPI_DIR)/lib/BWAPI.lib;$(EXTERNAL_LIB_DIR)/SDL.lib;$(EXTERNAL_LIB_DIR)/SDLmain.lib;$(EXTERNAL_LIB_DIR)/opengl32.lib;$(EXTERNAL_LIB_DIR)/SDL_image.lib;$(EXTERNAL_LIB_DIR)/SDL_gfx.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+       <OptimizeReferences>true</OptimizeReferences>
+       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+diff --git a/UAlbertaBot/Source/UAlbertaBotModule.cpp b/UAlbertaBot/Source/UAlbertaBotModule.cpp
+index 3d259b3..348bba1 100644
+--- a/UAlbertaBot/Source/UAlbertaBotModule.cpp
++++ b/UAlbertaBot/Source/UAlbertaBotModule.cpp
+@@ -1,3 +1,4 @@
++#include "../../../../tools/Telemetry.h"
+ /* 
+  +----------------------------------------------------------------------+
+  | UAlbertaBot                                                          |
+@@ -29,6 +30,7 @@ UAlbertaBotModule::UAlbertaBotModule()
+ // This gets called when the bot starts!
+ void UAlbertaBotModule::onStart()
+ {
++    LocalTrace::begin("UAlbertaBot");
+     // Parse the bot's configuration file if it has one, change this file path to where your config file is
+     // Any relative path name will be relative to Starcraft installation folder
+     ParseUtils::ParseConfigFile(Config::ConfigFile::ConfigFileLocation);
+@@ -67,6 +69,7 @@ void UAlbertaBotModule::onStart()
+ 
+ void UAlbertaBotModule::onEnd(bool isWinner) 
+ {
++    LocalTrace::end("UAlbertaBot", isWinner);
+ 	if (Config::Modules::UsingGameCommander)
+ 	{
+ 		Global::Strategy().onEnd(isWinner);
+@@ -75,6 +78,7 @@ void UAlbertaBotModule::onEnd(bool isWinner)
+ 
+ void UAlbertaBotModule::onFrame()
+ {
++    RecordLocalTelemetry("UAlbertaBot");
+     if (BWAPI::Broodwar->getFrameCount() > 100000)
+     {
+         BWAPI::Broodwar->restartGame();
+@@ -121,11 +125,13 @@ void UAlbertaBotModule::onFrame()
+ 
+ void UAlbertaBotModule::onUnitDestroy(BWAPI::Unit unit)
+ {
++    LocalTrace::event("destroy", unit);
+ 	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitDestroy(unit); }
+ }
+ 
+ void UAlbertaBotModule::onUnitMorph(BWAPI::Unit unit)
+ {
++    LocalTrace::event("morph", unit);
+ 	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitMorph(unit); }
+ }
+ 
+@@ -136,11 +142,13 @@ void UAlbertaBotModule::onSendText(std::string text)
+ 
+ void UAlbertaBotModule::onUnitCreate(BWAPI::Unit unit)
+ {
++    LocalTrace::event("create", unit); 
+ 	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitCreate(unit); }
+ }
+ 
+ void UAlbertaBotModule::onUnitComplete(BWAPI::Unit unit)
+ {
++    LocalTrace::event("complete", unit);
+ 	if (Config::Modules::UsingGameCommander) { m_gameCommander.onUnitComplete(unit); }
+ }
+ 
+diff --git a/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj b/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj
+index 9ab4b28..5e03c25 100644
+--- a/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj
++++ b/UAlbertaBot/VisualStudio/UAlbertaBot.vcxproj
+@@ -1,4 +1,4 @@
+-﻿<?xml version="1.0" encoding="utf-8"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+   <ItemGroup Label="ProjectConfigurations">
+     <ProjectConfiguration Include="Debug|Win32">
+@@ -21,7 +21,7 @@
+     <ConfigurationType>Application</ConfigurationType>
+     <UseOfMfc>false</UseOfMfc>
+     <CharacterSet>NotSet</CharacterSet>
+-    <WholeProgramOptimization>true</WholeProgramOptimization>
++    <WholeProgramOptimization>false</WholeProgramOptimization>
+     <PlatformToolset>v142</PlatformToolset>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+@@ -70,13 +70,13 @@
+       <PrecompiledHeader>
+       </PrecompiledHeader>
+       <WarningLevel>Level3</WarningLevel>
+-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <WholeProgramOptimization>false</WholeProgramOptimization>
+       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+     </ClCompile>
+     <Link>
+       <AdditionalDependencies>$(BWAPI_DIR)/Debug/BWAPILIB.lib;$(BWAPI_DIR)/Debug/BWAPIClient.lib;$(Configuration)/SparCraft/SparCraft_d.lib;../../BOSS/bin/BOSS_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+       <TargetMachine>MachineX86</TargetMachine>
+       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+@@ -93,11 +93,11 @@
+       <PrecompiledHeader>
+       </PrecompiledHeader>
+       <WarningLevel>Level3</WarningLevel>
+-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+       <EnablePREfast>false</EnablePREfast>
+-      <WholeProgramOptimization>true</WholeProgramOptimization>
++      <WholeProgramOptimization>false</WholeProgramOptimization>
+       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+     </ClCompile>
+@@ -105,8 +105,8 @@
+       <LinkLibraryDependencies>true</LinkLibraryDependencies>
+     </ProjectReference>
+     <Link>
+-      <AdditionalDependencies>$(BWAPI_DIR)/Release/BWAPILIB.lib;$(BWAPI_DIR)/Release/BWAPIClient.lib;$(Configuration)/SparCraft/SparCraft.lib;../../BOSS/bin/BOSS.lib;%(AdditionalDependencies)</AdditionalDependencies>
+-      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <AdditionalDependencies>$(ProjectDir)..\..\..\STARTcraft\visualstudio\Win32\Release\BWAPI\BWAPI.lib;$(Configuration)/SparCraft/SparCraft.lib;../../BOSS/bin/BOSS.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <GenerateDebugInformation>false</GenerateDebugInformation>
+       <SubSystem>Console</SubSystem>
+       <OptimizeReferences>true</OptimizeReferences>
+       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+@@ -211,3 +211,4 @@
+   <ImportGroup Label="ExtensionTargets">
+   </ImportGroup>
+ </Project>
++
+diff --git a/UAlbertaBot/bin/UAlbertaBot_Config.txt b/UAlbertaBot/bin/UAlbertaBot_Config.txt
+index e4e9335..56b768b 100644
+--- a/UAlbertaBot/bin/UAlbertaBot_Config.txt
++++ b/UAlbertaBot/bin/UAlbertaBot_Config.txt
+@@ -8,9 +8,9 @@
+         
+     "BWAPI" : 
+     {
+-        "SetLocalSpeed"             : 0,
++        "SetLocalSpeed"             : 42,
+         "SetFrameSkip"              : 0,
+-        "UserInput"                 : true,
++        "UserInput"                 : false,
+         "CompleteMapInformation"    : false
+     },
+     
+@@ -116,3 +116,5 @@
+         }
+     }
+ }
++
++
