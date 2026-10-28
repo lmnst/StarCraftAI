@@ -13,6 +13,8 @@ static HWND statusBox = nullptr;
 static std::wstring runDir, message;
 static bool failed = false, finished = false, replaying = false;
 static ULONGLONG startedAt = 0;
+static unsigned matchSeed = 20261026;
+static bool advanceResults = false;
 struct Side { std::wstring bot, botDir, ini; DWORD injectorPID = 0, gamePID = 0; bool botStarted = false; };
 static Side sides[2];
 
@@ -70,22 +72,24 @@ static bool WriteIni(Side& side, bool host, int frameMs) {
     std::ofstream f(side.ini);
     if (!f) return false;
     f << "[ai]\nai=NULL\nai_dbg=NULL\n[auto_menu]\nauto_menu=LAN\n"
-      << "character_name=" << narrow(side.bot) << "\nlan_mode=Local PC\nauto_restart=OFF\n"
+      << "character_name=" << narrow(side.bot) << "\nlan_mode=Local PC\nauto_restart=" << (advanceResults ? "ON" : "OFF") << "\n"
       << "map=" << (host ? "maps/BroodWar/AIIDE/(2)Heartbreak Ridge.scx" : "") << "\n"
       << "game=StarterBot\nrace=Protoss\ngame_type=MELEE\n"
       << "wait_for_min_players=2\nwait_for_max_players=2\nwait_for_time=2000\n"
       << "save_replay=" << narrow(runDir) << "\\" << narrow(side.bot) << ".rep\n"
       << "[config]\nshared_memory=ON\nconsole_attach_on_startup=FALSE\nconsole_alloc_on_startup=FALSE\nconsole_attach_auto=FALSE\nconsole_alloc_auto=FALSE\n"
       << "[window]\nwindowed=ON\nleft=" << (host ? 10 : 685) << "\ntop=40\nwidth=640\nheight=480\n"
-      << "[starcraft]\nsound=OFF\nseed_override=20261026\nspeed_override=" << frameMs << "\n";
+      << "[starcraft]\nsound=OFF\nseed_override=" << matchSeed << "\nspeed_override=" << frameMs << "\n";
     return bool(f);
 }
 static void Fail(const std::wstring& what) {
     failed = true; message = what + L" (Windows error " + std::to_wstring(GetLastError()) + L").";
     std::ofstream f(runDir + L"\\launcher-error.txt"); f << narrow(message); StopMatch();
 }
-static void StartMatch(int frameMs) {
+static void StartMatch(int frameMs, const std::wstring& candidateDirectory = L"", unsigned seed = 20261026, bool autoAdvance = false) {
     StopMatch(); failed = false; finished = false; replaying = false;
+    matchSeed = seed;
+    advanceResults = autoAdvance;
     SYSTEMTIME now; GetLocalTime(&now); wchar_t stamp[80];
     swprintf_s(stamp, L"%04u%02u%02u-%02u%02u%02u-%03u", now.wYear,now.wMonth,now.wDay,now.wHour,now.wMinute,now.wSecond,now.wMilliseconds);
     CreateDirectoryW((root + L"matches").c_str(), nullptr);
@@ -93,6 +97,7 @@ static void StartMatch(int frameMs) {
     if (!CreateDirectoryW(runDir.c_str(), nullptr)) { message = L"Could not create match directory."; failed = true; return; }
     std::ofstream(root + L"matches\\latest.txt") << narrow(stamp);
     sides[0] = {L"StarterBot", root + L"src\\STARTcraft\\bin", runDir + L"\\StarterBot.ini"};
+    if (!candidateDirectory.empty()) sides[0].botDir = candidateDirectory;
     sides[1] = {L"UAlbertaBot", root + L"src\\UAlbertaBot\\UAlbertaBot\\bin", runDir + L"\\UAlbertaBot.ini"};
     matchJob = CreateJobObjectW(nullptr, nullptr);
     JOBOBJECT_EXTENDED_LIMIT_INFORMATION limits{};
@@ -199,6 +204,7 @@ static void Refresh() {
     }
     SetWindowTextW(statusBox, text.c_str());
 }
+#ifndef STARBENCH_CONSOLE
 static LRESULT CALLBACK WindowProcedure(HWND window, UINT msg, WPARAM wp, LPARAM lp) {
     switch (msg) {
     case WM_CREATE:
@@ -227,3 +233,4 @@ int WINAPI wWinMain(HINSTANCE instance,HINSTANCE,PWSTR,int show){
     HWND w=CreateWindowW(wc.lpszClassName,L"StarCraft AI - Bot vs Bot",WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX,300,520,730,510,nullptr,nullptr,instance,nullptr);
     if(!w)return 1;ShowWindow(w,show);MSG m{};while(GetMessageW(&m,nullptr,0,0)){TranslateMessage(&m);DispatchMessageW(&m);}return 0;
 }
+#endif
