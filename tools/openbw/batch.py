@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 import shutil
 import signal
@@ -15,7 +16,9 @@ import tempfile
 import time
 
 REPO = Path(__file__).resolve().parents[2]
-WORKSPACE = REPO.parents[1]
+sys.path.insert(0, str(REPO / "tools"))
+from local_paths import load_paths
+WORKSPACE = load_paths()["workspace_root"]
 RUN = REPO / "runs/openbw-20261027"
 
 

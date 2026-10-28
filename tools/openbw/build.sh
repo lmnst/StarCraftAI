@@ -2,7 +2,7 @@
 set -euo pipefail
 tools=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 repo=$(cd "$tools/../.." && pwd)
-workspace=$(cd "$repo/../.." && pwd)
+workspace=$(python3 -c 'import sys; sys.path.insert(0, sys.argv[1]); from local_paths import load_paths; print(load_paths()["workspace_root"])' "$tools/..")
 target=${1:-"$repo/runs/openbw-20261027/harness"}
 mkdir -p "$target"
 bwapi_headers="$workspace/upstream/bwapi/bwapi/include"

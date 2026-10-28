@@ -11,8 +11,8 @@ Stardust source-repair candidate and an explicitly unconfirmed tscmoo author-sou
 candidate; it is not an official StarSkirmish benchmark.
 
 Only edit your trial's src/ and notes.md. You may read your trial directory, the
-BWAPI API headers at D:/xjzb/openbw-probe-20261027-1140/source/bwapi/bwapi/include,
-and the FAP/BWEM libraries at D:/xjzb/openbw-readiness-20261027/sdk. The tool compiles
+BWAPI API headers at BWAPI_INCLUDE_PATH,
+and the FAP/BWEM libraries at SDK_PATH. The tool compiles
 every src/*.cpp using MSVC v141, Win32 Release, C++17, BWAPILIB, FAP headers and BWEM.
 Keep the gameInit and newAIModule exports. Do not read opponent code, binaries or
 configs, other trials, existing project bots, trusted engine code, or evaluation

@@ -1,7 +1,9 @@
 param([Parameter(Mandatory)][string]$Name,[string]$Model='gpt-5.6-sol',[string]$Reasoning='medium',[ValidateRange(1,60)][int]$BudgetMinutes=60)
 $ErrorActionPreference='Stop'
 if($Name -notmatch '^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$'){throw 'Use a simple unique trial name'}
-$root='D:\xjzb\openbw-readiness-20261027'
+. (Join-Path $PSScriptRoot '../LocalPaths.ps1')
+$paths=Get-LocalPaths
+$root=$paths.runtime_root
 $config=Get-Content (Join-Path $root environment.json) -Raw -Encoding utf8 | ConvertFrom-Json
 if(!$config.ready -or !$config.scoring_ready){throw 'Windows roster/scoring acceptance has not passed'}
 $acceptancePath=Join-Path $root 'pipeline-acceptance/acceptance.json'
@@ -17,7 +19,7 @@ if(!$preflight.passed){throw 'Preflight did not pass; training was not started'}
 New-Item -ItemType Directory (Join-Path $trial src) -Force | Out-Null
 Copy-Item (Join-Path $PSScriptRoot Starter.cpp) (Join-Path $trial src/Bot.cpp)
 Copy-Item (Join-Path $trial src) (Join-Path $trial initial) -Recurse
-$task=(Get-Content (Join-Path $PSScriptRoot task.md) -Raw -Encoding utf8).Replace('TOOLS_PATH',$PSScriptRoot).Replace('TRIAL_PATH',$trial)
+$task=(Get-Content (Join-Path $PSScriptRoot task.md) -Raw -Encoding utf8).Replace('TOOLS_PATH',$PSScriptRoot).Replace('TRIAL_PATH',$trial).Replace('BWAPI_INCLUDE_PATH',$paths.bwapi_include).Replace('SDK_PATH',(Join-Path $root sdk))
 [IO.File]::WriteAllText((Join-Path $trial task.md),$task,[Text.UTF8Encoding]::new($false))
 $config.opponents | Select-Object name,race,official_version_match | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $trial roster.json) -Encoding utf8
 $started=[DateTimeOffset]::UtcNow;$deadline=$started.AddMinutes($BudgetMinutes)
@@ -56,7 +58,7 @@ try{
    $manifest.effective_context_verified=$false;$contextStarted=[DateTimeOffset]::UtcNow;SaveManifest
   }
   if(!$manifest.effective_context_verified){
-   & E:/anaconda_c/python.exe (Join-Path $PSScriptRoot session_check.py) --trial $trial --model $Model --reasoning $Reasoning --min-turns $segment
+   & $paths.python (Join-Path $PSScriptRoot session_check.py) --trial $trial --model $Model --reasoning $Reasoning --min-turns $segment
    if($LASTEXITCODE -eq 0){$manifest.effective_context_verified=$true;SaveManifest}
    elseif($LASTEXITCODE -ne 3){throw 'Actual training permissions/model did not match the requested settings'}
    elseif(([DateTimeOffset]::UtcNow-$contextStarted).TotalSeconds -gt 60){throw 'Actual training context could not be verified within 60 seconds'}

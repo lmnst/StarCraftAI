@@ -35,7 +35,7 @@ tscmoo 候选与官方 tscmoop2 的身份未确认，完整官方对手版本及
 
 ## 本机证据位置
 
-以下均相对 `D:/xjzb/openbw-readiness-20261027/`，运行产物不入 Git：
+以下均相对本地配置中的 `runtime_root`，运行产物不入 Git：
 
 - `pipeline-acceptance/acceptance.json`：环境与工具验收。
 - `score-validation.json`：计分与完整帧限验证。

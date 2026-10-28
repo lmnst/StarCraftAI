@@ -2,10 +2,12 @@
 from pathlib import Path
 from datetime import datetime,timezone
 import argparse,hashlib,importlib.util,json,os,shutil,subprocess,sys,time
-ROOT=Path('D:/xjzb/openbw-readiness-20261027')
-WORKSPACE=Path(__file__).resolve().parents[4]
-CMAKE=Path('E:/VS1019/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe')
-MSBUILD=Path('E:/VS1019/MSBuild/15.0/Bin/MSBuild.exe')
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from local_paths import load_paths
+PATHS=load_paths()
+ROOT=PATHS['runtime_root']
+CMAKE=PATHS['cmake']
+MSBUILD=PATHS['msbuild']
 def now():return datetime.now(timezone.utc).isoformat()
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def save(p,x):p.write_text(json.dumps(x,indent=2,ensure_ascii=False),encoding='utf-8')
@@ -27,8 +29,8 @@ def build(trial):
     shutil.copytree(trial/'src',version/'src')
     sources=sorted((version/'src').glob('*.cpp'))
     if not sources:raise RuntimeError('No src/*.cpp')
-    api=Path('D:/xjzb/openbw-probe-20261027-1140/source/bwapi/bwapi/include')
-    lib=Path('D:/xjzb/openbw-probe-20261027-1140/engine/lib/Release/BWAPILIB.lib')
+    api=PATHS['bwapi_include']
+    lib=PATHS['bwapi_library']
     libs=ROOT/'sdk'
     bwem=sorted((libs/'bwem/BWEM/src').glob('*.cpp'))
     (version/'Candidate.def').write_text('EXPORTS\ngameInit\nnewAIModule\n')
@@ -64,7 +66,7 @@ def play_job(job_path):
     if not job.get('operator_fixture'):
         assert sha(Path(opponent['entry']))==opponent['binary_sha256'],'Opponent binary changed after configuration'
         if opponent.get('payload'):assert sha(Path(opponent['payload']))==opponent['payload_sha256']
-    spec=importlib.util.spec_from_file_location('backend',WORKSPACE/'build/windows-openbw-integration-20261027/match_backend.py')
+    spec=importlib.util.spec_from_file_location('backend',Path(__file__).with_name('match_backend.py'))
     a=importlib.util.module_from_spec(spec);spec.loader.exec_module(a)
     a.OUT=Path(job['output']);a.BIN=Path(cfg['stock_bin']);a.TIMEOUT_SECONDS=job.get('operator_timeout_seconds',cfg.get('wall_timeout_seconds',2400))
     a.OUT.mkdir(parents=True,exist_ok=True)

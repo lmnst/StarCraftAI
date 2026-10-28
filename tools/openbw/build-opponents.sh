@@ -2,7 +2,7 @@
 set -euo pipefail
 tools=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 repo=$(cd "$tools/../.." && pwd)
-root=$(cd "$repo/../.." && pwd)
+root=$(python3 -c 'import sys; sys.path.insert(0, sys.argv[1]); from local_paths import load_paths; print(load_paths()["workspace_root"])' "$tools/..")
 out="$repo/runs/openbw-20261027/opponents"
 mkdir -p "$out"
 cache="$HOME/.cache/starcraft-openbw-20261027"

@@ -2,6 +2,7 @@
 /*
 !/.gitignore
 !/.gitattributes
+!/local-paths.example.json
 !/README.md
 !/THIRD_PARTY.md
 !/BENCHMARK.md
@@ -27,6 +28,8 @@
 !/tools/BuildBots.cmd
 !/tools/Validate-Match.ps1
 !/tools/Setup-Sources.ps1
+!/tools/LocalPaths.ps1
+!/tools/local_paths.py
 !/tools/Benchmark.ps1
 !/tools/BenchmarkMatch.cpp
 !/tools/BenchmarkMatch.vcxproj

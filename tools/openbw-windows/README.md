@@ -8,21 +8,40 @@ See the [dated progress record](../../benchmark/windows-openbw-20261028/README.m
 
 ## Local prerequisites
 
-These scripts archive the current machine's experiment. A fresh clone cannot
-run them on its own. They currently require these paths and external files:
+From the repository root, copy and edit the machine configuration:
 
-- `D:/xjzb/openbw-readiness-20261027/`: accepted `environment.json`, acceptance
-  records, opponent runtimes, maps, engines and FAP/BWEM SDK files.
-- `D:/xjzb/openbw-probe-20261027-1140/`: BWAPI headers and `BWAPILIB.lib`.
-- `E:/anaconda_c/python.exe` and the VS 2017 compiler/CMake under `E:/VS1019/`.
-- The enclosing workspace's `build/windows-openbw-integration-20261027/match_backend.py`,
-  loaded by `practice.py`; that backend also requires the enclosing workspace's
-  `upstream/bwapi/bwapi.ini.example` and existing local fixture directories.
-- A locally configured Codex CLI for timed trials.
+```powershell
+Copy-Item ./local-paths.example.json ./local-paths.json
+# Set each value to an existing local dependency path before running tools.
+```
 
-Runtime configuration, third-party source trees, binary dependencies, model
-session logs and game replays are not distributed in this repository. Preserve
-the external workspace alongside this source archive when backing up experiments.
+`local-paths.json` is ignored by Git. Absolute paths are accepted; relative paths
+are resolved against the repository root, independently of the working directory.
+Set `STARCRAFTAI_PATHS` to use another configuration file. All configured paths
+refer to existing dependencies; the example does not download or install them.
+
+| Setting | Required content |
+| --- | --- |
+| `runtime_root` | Accepted `environment.json`, acceptance records, opponent runtimes, maps, engines and `sdk/` containing FAP/BWEM |
+| `probe_root` | Existing probe fixture with `player1/` MPQ data and `engine/bin/Release/` |
+| `python` | Python executable |
+| `cmake`, `msbuild` | CMake and VS 2017 MSBuild executables; current build uses v141, Win32 and SDK 10.0.17763.0 |
+| `bwapi_include`, `bwapi_library` | Matching BWAPI headers and `BWAPILIB.lib` |
+| `bwapi_ini` | BWAPI INI template |
+| `workspace_root` | Engine workspace for the archived WSL tools, with `upstream/`, `build/`, `assets/` and `.tools/` |
+
+The match backend is included as `match_backend.py`. A locally configured Codex
+CLI is required for timed trials. Runtime manifests contain paths and hashes of
+their own; moving dependencies also requires preparing and accepting a new
+runtime configuration. Do not rewrite manifests or acceptance records of old trials.
+
+For the archived WSL tools, use `STARCRAFTAI_PATHS` pointing to a separate JSON
+configuration whose `workspace_root` is a Linux path, such as `/mnt/d/engine-workspace`.
+Those Python/Bash tools share the same resolver; Windows paths are not converted
+implicitly. Native `tools/local234/Build.ps1` uses the configured `msbuild`.
+
+Third-party source trees, binary dependencies, model session logs and game replays
+are not distributed in this repository and still need to be prepared separately.
 
 ## Development and evaluation
 
@@ -32,7 +51,7 @@ combat. `task.md` supplies the full training instructions. Resume prompts repeat
 the objective instead of relying only on the agent's saved notes.
 
 Before starting a model, `StartTrial.ps1` runs `Preflight.ps1`. This creates an
-independent directory under `D:/xjzb/openbw-readiness-20261027/preflight/`, writes a
+independent directory under `<runtime_root>/preflight/`, writes a
 manifest with the same seven-digit .NET deadline used by timed trials, invokes
 the public Practice wrapper's Preflight action (same build and match code), and
 requires one resolved 1,200-frame game with readable replays. This operator check
@@ -67,4 +86,4 @@ tscmoo author-source candidate, not an official benchmark.
 
 The permission-profile setting follows the [official configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference).
 Completed repair evidence is recorded in
-`D:/xjzb/openbw-readiness-20261027/repairs-20261028/REPORT.md`.
+`<runtime_root>/repairs-20261028/REPORT.md`.

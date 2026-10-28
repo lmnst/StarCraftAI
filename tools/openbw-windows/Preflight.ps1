@@ -1,6 +1,8 @@
 param()
 $ErrorActionPreference='Stop'
-$root='D:\xjzb\openbw-readiness-20261027'
+. (Join-Path $PSScriptRoot '../LocalPaths.ps1')
+$paths=Get-LocalPaths
+$root=$paths.runtime_root
 $probe=Join-Path $root ('preflight/'+[DateTimeOffset]::UtcNow.ToString('yyyyMMdd-HHmmss')+'-'+[guid]::NewGuid().ToString('N').Substring(0,8))
 New-Item -ItemType Directory (Join-Path $probe src) -Force | Out-Null
 Copy-Item (Join-Path $PSScriptRoot Starter.cpp) (Join-Path $probe src/Bot.cpp)
@@ -10,7 +12,7 @@ Copy-Item (Join-Path $PSScriptRoot Starter.cpp) (Join-Path $probe src/Bot.cpp)
 $summary=Get-Content (Join-Path $probe 'practice/batch-000/summary.json') -Raw -Encoding utf8 | ConvertFrom-Json
 if($summary.planned -ne 1 -or $summary.unresolved -ne 0){throw "Preflight match did not pass: $probe"}
 $checks=@{}
-foreach($name in @('task.md','Starter.cpp','practice.py','Practice.ps1','StartTrial.ps1','Preflight.ps1','session_check.py')){
+foreach($name in @('task.md','Starter.cpp','practice.py','Practice.ps1','StartTrial.ps1','Preflight.ps1','session_check.py','match_backend.py','../local_paths.py','../LocalPaths.ps1')){
  $checks[$name]=(Get-FileHash (Join-Path $PSScriptRoot $name)).Hash
 }
 $record=@{passed=$true;completed_utc=[DateTimeOffset]::UtcNow.ToString('o');directory=$probe;tool_hashes=$checks;environment_sha256=(Get-FileHash (Join-Path $root environment.json)).Hash;summary=$summary;scope='operator tool check, not model training or benchmark performance'}

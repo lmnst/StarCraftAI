@@ -1,7 +1,7 @@
 # StarCraftAI
 
 Coding Agent 流程、各阶段工具和与官方 Benchmark 的差异见 [BENCHMARK.md](BENCHMARK.md)。
-当前实验使用 [Windows OpenBW 工具](tools/openbw-windows/README.md)，本地十对手环境已通过验收；实验脚本仍依赖本机目录，不是完整可移植运行包。
+当前实验使用 [Windows OpenBW 工具](tools/openbw-windows/README.md)，本地十对手环境已通过验收。运行前将 `local-paths.example.json` 复制为不入库的 `local-paths.json`，填写依赖路径；游戏、引擎与对手运行环境仍需另行准备。
 
 让 C++ 机器人通过 BWAPI 自动控制《星际争霸：母巢之战》，观察比赛画面和运行数据。
 

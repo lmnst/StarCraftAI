@@ -1,0 +1,11 @@
+{
+  "runtime_root": ".local/openbw-runtime",
+  "probe_root": ".local/openbw-probe",
+  "workspace_root": ".local/engine-workspace",
+  "python": ".local/python/python.exe",
+  "cmake": ".local/cmake/bin/cmake.exe",
+  "msbuild": ".local/VisualStudio/MSBuild/15.0/Bin/MSBuild.exe",
+  "bwapi_include": ".local/openbw-probe/source/bwapi/bwapi/include",
+  "bwapi_library": ".local/openbw-probe/engine/lib/Release/BWAPILIB.lib",
+  "bwapi_ini": ".local/engine-workspace/upstream/bwapi/bwapi.ini.example"
+}

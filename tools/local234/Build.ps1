@@ -1,7 +1,8 @@
 param([Parameter(Mandatory)][string]$Trial,[switch]$Harness)
 $ErrorActionPreference='Stop'
 $repo=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
-$msbuild='E:\VS1019\MSBuild\15.0\Bin\MSBuild.exe'
+. (Join-Path $PSScriptRoot '../LocalPaths.ps1')
+$msbuild=(Get-LocalPaths).msbuild
 if($Harness){
  & $msbuild (Join-Path $PSScriptRoot 'Match.vcxproj') /t:Rebuild /p:Configuration=Release /p:Platform=Win32 /p:PlatformToolset=v141 /p:WindowsTargetPlatformVersion=10.0.17763.0 /nologo /v:minimal
  if($LASTEXITCODE){throw 'Harness compile failed'}
