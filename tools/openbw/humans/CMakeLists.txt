@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.24)
+project(LocalOpenBWOpponents LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+add_compile_options(-include cstdint)
+add_compile_options("SHELL:-include climits")
+add_compile_options("SHELL:-include cstring")
+add_library(BWAPILIB SHARED IMPORTED)
+set_target_properties(BWAPILIB PROPERTIES
+  IMPORTED_LOCATION "${ENGINE_BUILD}/lib/libBWAPILIB.so"
+  INTERFACE_INCLUDE_DIRECTORIES "${ENGINE_SOURCE}/bwapi/include")
+foreach(name Steamhammer Locutus)
+  add_subdirectory("${OPPONENT_SOURCE}/test/3rdparty/opponents/${name}" "${name}")
+  target_sources(${name} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Module.cpp")
+  target_compile_definitions(${name} PRIVATE "LOCAL_${name}=1")
+endforeach()
