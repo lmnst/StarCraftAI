@@ -1,0 +1,5 @@
+build/
+runs/
+game-source.txt
+ddraw.dll
+*.dll

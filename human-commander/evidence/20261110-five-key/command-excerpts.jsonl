@@ -1,0 +1,16 @@
+{"event":"provenance","run":"20261110-120707-611","note":"Selected telemetry fields observed and checked before Quit Mission. The subsequent automatic new match reopened the old journal."}
+{"event":"command","source":"keyboard","source_frame":20,"frame":24,"action":"attack","status":"applied","stance":"attack"}
+{"event":"command","source":"keyboard","source_frame":8550,"frame":8552,"action":"expand","status":"queued","stance":"attack"}
+{"event":"expansion_planned","frame":8568,"source":"manual","request_frame":8552,"tile":[111,28]}
+{"event":"expansion_started","frame":8776,"source":"manual","request_frame":8552,"tile":[111,28],"unit_id":244}
+{"event":"expansion_completed","frame":10647,"source":"manual","request_frame":8552,"tile":[111,28],"unit_id":244}
+{"event":"state","frame":11280,"stance":"attack","expansion_status":"completed","bases":2,"army_count":5,"center":[493,1861]}
+{"event":"command","source":"keyboard","source_frame":11319,"frame":11320,"action":"defend","status":"applied","stance":"defend"}
+{"event":"state","frame":12840,"stance":"defend","army_count":3,"center":[3896,1720],"goal":[3821,1762]}
+{"event":"command","source":"keyboard","source_frame":12948,"frame":12952,"action":"rally","status":"applied","stance":"rally"}
+{"event":"command","source":"keyboard","source_frame":13007,"frame":13008,"action":"attack","status":"applied","stance":"attack"}
+{"event":"command","source":"keyboard","source_frame":15064,"frame":15064,"action":"retreat","status":"applied","stance":"retreat"}
+{"event":"retreat_complete","frame":16104}
+{"event":"state","frame":16560,"army_count":18,"center":[3571,1808]}
+{"event":"command","source":"keyboard","source_frame":16603,"frame":16608,"action":"attack","status":"applied","stance":"attack"}
+{"event":"state","frame":18000,"stance":"attack","army_count":28,"bases":2,"center":[2091,2086],"goal":[736,1312]}

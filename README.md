@@ -3,6 +3,8 @@
 Coding Agent 流程、各阶段工具和与官方 Benchmark 的差异见 [BENCHMARK.md](BENCHMARK.md)。
 当前实验使用 [Windows OpenBW 工具](tools/openbw-windows/README.md)，本地十对手环境已通过验收。运行前将 `local-paths.example.json` 复制为不入库的 `local-paths.json`，填写依赖路径；游戏、引擎与对手运行环境仍需另行准备。
 
+人工高层决策按钮版（F5–F9 指挥 fix-r1 bot，原版游戏）见 [human-commander/README.md](human-commander/README.md)。
+
 让 C++ 机器人通过 BWAPI 自动控制《星际争霸：母巢之战》，观察比赛画面和运行数据。
 
 ## 现有内容

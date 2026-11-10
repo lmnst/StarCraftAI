@@ -1,0 +1,17 @@
+{"event":"expansion_planned","frame":8400,"source":"auto","request_frame":-1,"tile":[13,66]}
+{"event":"expansion_started","frame":8614,"source":"auto","request_frame":-1,"tile":[13,66],"unit_id":237}
+{"event":"expansion_completed","frame":10485,"source":"auto","request_frame":-1,"tile":[13,66],"unit_id":237}
+{"event":"key_received","frame":16715,"key":"F9","action":"expand"}
+{"event":"command","source":"keyboard","source_frame":16715,"frame":16720,"action":"expand","status":"queued","stance":"rally"}
+{"event":"expansion_planned","frame":16752,"source":"manual","request_frame":16720,"tile":[62,46]}
+{"event":"expansion_plan_failed","frame":17232,"source":"manual","request_frame":16720,"tile":[62,46]}
+{"event":"expansion_planned","frame":19080,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_plan_failed","frame":19464,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_planned","frame":19464,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_plan_failed","frame":19728,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_planned","frame":19728,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"key_received","frame":19769,"key":"F5","action":"attack"}
+{"event":"command","source":"keyboard","source_frame":19769,"frame":19776,"action":"attack","status":"applied","stance":"attack"}
+{"event":"expansion_plan_failed","frame":20040,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_planned","frame":20040,"source":"auto","request_frame":-1,"tile":[62,46]}
+{"event":"expansion_plan_failed","frame":20664,"source":"auto","request_frame":-1,"tile":[62,46]}
